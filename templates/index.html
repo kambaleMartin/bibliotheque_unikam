@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  {% if user %}
+    {% if user.role == "Étudiant" %}
+      <section class="hero">
+        <h2>Bienvenue, {{ user.username }}</h2>
+        <p>Livres disponibles pour la faculté {{ user.faculty }} :</p>
+        <a class="button" href="/student">Voir tous les livres de ma faculté</a>
+      </section>
+      <section>
+      <h3>Liste des livres de {{ user.faculty }}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Disponibilité</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+            <tr>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.stock }} / {{ book.total }}</td>
+              <td><a href="/student/book/{{ book.id }}">Voir</a></td>
+            </tr>
+          {% else %}
+            <tr><td colspan="4">Aucun livre disponible pour votre faculté.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% elif user.role == "Bibliothécaire" %}
+      <section class="hero">
+        <h2>Bonjour, {{ user.username }}</h2>
+        <p>Accédez à la gestion des livres et aux emprunts depuis votre espace.</p>
+        <a class="button" href="/librarian/books">Voir l'espace bibliothécaire</a>
+      </section>
+    {% elif user.role == "Directeur" %}
+      <section class="hero">
+        <h2>Bonjour, {{ user.username }}</h2>
+        <p>Consultez les stocks et rapports de la bibliothèque.</p>
+        <a class="button" href="/director/stock">Voir l'espace directeur</a>
+      </section>
+    {% else %}
+    <section class="hero">
+      <h2>Bienvenue, {{ user.username }}</h2>
+      <p>Connectez-vous pour accéder à votre espace dédié.</p>
+    </section>
+    {% endif %}
+  {% else %}
+    <section class="hero">
+      <h2>Bienvenue dans Bibliothèque Unikam</h2>
+      <p>Connectez-vous ou créez un compte pour voir les livres de votre faculté.</p>
+      <div class="roles">
+        <a class="role-card" href="/login">Connexion</a>
+        <a class="role-card" href="/register">Créer un compte</a>
+        <a class="role-card secondary" href="/catalog">Voir le catalogue</a>
+      </div>
+      <div class="intro-card">
+        <h3>Comment ça marche ?</h3>
+        <ul>
+          <li>1. Créez un compte étudiant.</li>
+          <li>2. Consultez les livres disponibles selon votre rôle.</li>
+          <li>3. Empruntez, gérez et suivez les stocks facilement.</li>
+        </ul>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

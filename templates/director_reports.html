@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Rapport mensuel</h2>
+    {% if report %}
+      <table>
+        <thead>
+          <tr>
+            <th>Livre</th>
+            <th>Nombre d'emprunts</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for title, count in report.items() %}
+            <tr>
+              <td>{{ title }}</td>
+              <td>{{ count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Aucun emprunt ce mois-ci.</p>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Consultation des emprunts</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Livre</th>
+          <th>Action</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in borrow_records %}
+          <tr>
+            <td>{{ record.student_name }}</td>
+            <td>{{ record.book_title }}</td>
+            <td>{{ record.action }}</td>
+            <td>{{ record.date.strftime('%d/%m/%Y %H:%M') }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">Aucun emprunt enregistré.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

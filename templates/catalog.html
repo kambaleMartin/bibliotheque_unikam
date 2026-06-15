@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="card">
+    <h2>Présentation de Bibliothèque Unikam</h2>
+    <p>Cette application est conçue pour aider les étudiants à gérer les prêts, les stocks et les rapports de la bibliothèque.</p>
+
+    <div class="catalog-intro">
+      <h3>Ce que propose l'application</h3>
+      <ul>
+        <li><strong>Création de compte :</strong> créez un compte étudiant pour accéder à votre espace personnel.</li>
+        <li><strong>Accès personnalisé :</strong> chaque utilisateur voit des pages et fonctions adaptées à son rôle.</li>
+        <li><strong>Gestion des livres :</strong> ajouter, modifier et suivre l'état des stocks.</li>
+        <li><strong>Emprunts et retours :</strong> suivre les demandes d'emprunt et gérer les retours facilement.</li>
+        <li><strong>Rapports :</strong> visualiser l'activité de prêt du mois et les livres les plus demandés.</li>
+      </ul>
+
+      <h3>Pourquoi utiliser cette application ?</h3>
+      <ul>
+        <li>Interface propre et professionnelle, facile à utiliser sur mobile et sur ordinateur.</li>
+        <li>Accès rapide depuis n'importe quel appareil en réseau local.</li>
+        <li>Fonctionnalités claires pour chaque rôle, avec un espace dédié.</li>
+        <li>Suivi simple des utilisateurs, des livres et des statistiques de prêt.</li>
+      </ul>
+
+      <p>Avant de commencer, ce guide vous aide à comprendre le fonctionnement général de l'application et ce que chaque utilisateur peut faire.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Comment démarrer</h3>
+    <div class="cards-grid">
+      <div class="stat-card">
+        <h4>Étudiant</h4>
+        <p>Créez un compte, connectez-vous et consultez les livres disponibles pour votre faculté.</p>
+      </div>
+    </div>
+
+    <div class="catalog-actions">
+      {% if user %}
+        <a class="button" href="/">Retour à l'accueil</a>
+      {% else %}
+        <a class="button" href="/login">Connexion</a>
+        <a class="button secondary" href="/register">Créer un compte</a>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

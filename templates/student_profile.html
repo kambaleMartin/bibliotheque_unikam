@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="profile-page">
+    <div class="section-header">
+      <div>
+        <h2>Mon profil</h2>
+        <p class="section-subtitle">Mettez à jour votre nom, mot de passe et photo de profil.</p>
+      </div>
+      <a class="button secondary" href="/student">Retour au tableau de bord</a>
+    </div>
+
+    <div class="profile-edit-grid">
+      <div class="profile-card">
+        <div class="profile-image profile-image-large">
+          {% if user.profile_image %}
+            <img src="{{ user.profile_image }}" alt="Photo de profil {{ user.username }}" />
+          {% else %}
+            <span class="profile-placeholder-large">{{ user.username[0]|upper }}</span>
+          {% endif %}
+        </div>
+        <div class="profile-summary">
+          <h3>{{ user.username }}</h3>
+          <p>Faculté : {{ user.faculty }}</p>
+          <p>Connecté actuellement à son espace étudiant.</p>
+        </div>
+      </div>
+
+      <form class="card form-card" method="POST" action="/student/profile" enctype="multipart/form-data">
+        <label>Nom d'utilisateur<input type="text" name="username" value="{{ user.username }}" required /></label>
+        <label>Email<input type="email" name="email" value="{{ user.email }}" required /></label>
+        <label>Sexe
+          <select name="gender" required>
+            {% for gender in genders %}
+              <option value="{{ gender }}" {% if gender == user.gender %}selected{% endif %}>{{ gender }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Date de naissance<input type="date" name="birth_date" value="{{ user.birth_date }}" required /></label>
+        <label>Téléphone<input type="text" name="phone" value="{{ user.phone }}" required /></label>
+        <label>Adresse<input type="text" name="address" value="{{ user.address }}" required /></label>
+        <label>Mot de passe<input type="password" name="password" placeholder="Nouveau mot de passe" /></label>
+        <label>Photo de profil<input id="profile_image_input" type="file" name="profile_image" accept="image/*" capture="environment" /></label>
+        <button type="submit">Enregistrer les modifications</button>
+      </form>
+      <script>
+        (function(){
+          const input = document.getElementById('profile_image_input');
+          if(!input) return;
+          input.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if(!file) return;
+            if(!file.type.startsWith('image/')) return;
+            const reader = new FileReader();
+            reader.onload = function(evt){
+              const container = document.querySelector('.profile-image-large');
+              if(!container) return;
+              const existingImg = container.querySelector('img');
+              if(existingImg){
+                existingImg.src = evt.target.result;
+              } else {
+                const img = document.createElement('img');
+                img.src = evt.target.result;
+                img.alt = 'Prévisualisation photo de profil';
+                container.innerHTML = '';
+                container.appendChild(img);
+              }
+            };
+            reader.readAsDataURL(file);
+          });
+        })();
+      </script>
+    </div>
+  </section>
+{% endblock %}

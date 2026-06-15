@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <div class="section-header">
+      <div>
+        <h2>Livres de {{ user.faculty }}</h2>
+        <p class="section-subtitle">Recherchez et consultez les ouvrages de votre domaine.</p>
+      </div>
+      <a class="button secondary" href="/student">Retour au tableau de bord</a>
+    </div>
+    <form method="GET" action="/student/books" class="search-form">
+      <input type="text" name="query" placeholder="Titre ou auteur" value="{{ query }}" />
+      <button type="submit">Rechercher</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Faculté</th>
+          <th>Disponibilité</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books %}
+          <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.faculty }}</td>
+            <td>{{ book.stock }} / {{ book.total }}</td>
+            <td><a href="/student/book/{{ book.id }}">Voir</a></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5">Aucun livre trouvé.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

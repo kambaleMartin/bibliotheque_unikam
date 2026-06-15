@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Gestion des livres</h2>
+    <form method="POST" action="/librarian/books/add" class="card form-card">
+      <h3>Ajouter un livre</h3>
+      <label>Titre<input type="text" name="title" required /></label>
+      <label>Auteur<input type="text" name="author" required /></label>
+      <label>Faculté
+        <select name="faculty" required>
+          <option value="">Sélectionner une faculté</option>
+          {% for faculty in faculties %}
+            <option value="{{ faculty }}">{{ faculty }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Stock<input type="number" name="stock" min="0" value="1" required /></label>
+      <button type="submit">Ajouter</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Faculté</th>
+          <th>Stock</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books %}
+          <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.faculty }}</td>
+            <td>{{ book.stock }}</td>
+            <td>{{ book.total }}</td>
+            <td>
+              <a href="/librarian/books/edit/{{ book.id }}">Modifier</a>
+              <form method="POST" action="/librarian/books/delete/{{ book.id }}" class="inline-form">
+                <button type="submit" class="danger">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7">Aucun livre enregistré.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

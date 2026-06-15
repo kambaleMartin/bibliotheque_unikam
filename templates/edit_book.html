@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="card">
+    <h2>Modifier le livre</h2>
+    <form method="POST" action="">
+      <label>Titre<input type="text" name="title" value="{{ book.title }}" required /></label>
+      <label>Auteur<input type="text" name="author" value="{{ book.author }}" required /></label>
+      <label>Faculté
+        <select name="faculty" required>
+          {% for faculty in faculties %}
+            <option value="{{ faculty }}" {% if faculty == book.faculty %}selected{% endif %}>{{ faculty }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Stock total<input type="number" name="stock" min="0" value="{{ book.total }}" required /></label>
+      <button type="submit">Enregistrer</button>
+      <a class="button secondary" href="/librarian/books">Annuler</a>
+    </form>
+  </section>
+{% endblock %}

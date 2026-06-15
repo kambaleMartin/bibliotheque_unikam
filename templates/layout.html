@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bibliothèque Unikam</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body class="page-transition">
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <a href="/">Bibliothèque Unikam</a>
+        </div>
+        <nav class="main-nav">
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Accueil</a>
+          <a class="nav-link {% if request.path.startswith('/catalog') %}active{% endif %}" href="/catalog">Catalogue</a>
+          {% if current_user %}
+            {% if current_user.role == "Étudiant" %}
+              <a class="nav-link {% if request.path.startswith('/student') %}active{% endif %}" href="/student">Tableau de bord</a>
+              <a class="nav-link" href="/student/books">Mes livres</a>
+              <a class="nav-link" href="/student/profile">Profil</a>
+            {% elif current_user.role == "Bibliothécaire" %}
+              <a class="nav-link {% if request.path.startswith('/librarian') %}active{% endif %}" href="/librarian/books">Gestion des livres</a>
+              <a class="nav-link" href="/librarian/borrow">Emprunts</a>
+              <a class="nav-link" href="/student/profile">Profil</a>
+            {% elif current_user.role == "Directeur" %}
+              <a class="nav-link {% if request.path.startswith('/director') %}active{% endif %}" href="/director/stock">Stock</a>
+              <a class="nav-link" href="/director/reports">Rapports</a>
+              <a class="nav-link" href="/director/borrowings">Emprunts</a>
+              <a class="nav-link" href="/student/profile">Profil</a>
+            {% endif %}
+            <a class="nav-link logout" href="/logout">Déconnexion</a>
+          {% else %}
+            <a class="nav-link {% if request.path == '/login' %}active{% endif %}" href="/login">Connexion</a>
+            <a class="nav-link {% if request.path == '/register' %}active{% endif %}" href="/register">Créer un compte</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+    <main>
+      {% if request.path == '/' %}
+        <section class="page-welcome">
+          {% if current_user %}
+            <h2>Bonjour {{ current_user.username }} !</h2>
+            <p>Bienvenue sur la bibliothèque Unikam. Vous pouvez accéder à vos livres depuis n'importe quel appareil connecté.</p>
+          {% else %}
+            <h2>Bienvenue à la bibliothèque Unikam</h2>
+            <p>Connectez-vous ou créez un compte pour accéder à vos livres et utiliser l'application depuis un autre téléphone.</p>
+          {% endif %}
+        </section>
+      {% endif %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="messages">
+            {% for category, message in messages %}
+              <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer>
+      <p>Bibliothèque Unikam - Démo Flask</p>
+    </footer>
+  </body>
+</html>

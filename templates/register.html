@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="card">
+    <h2>Créer un compte</h2>
+    <form method="POST" action="/register" class="form-card">
+      <label>
+        <span>Nom d'utilisateur</span>
+        <input type="text" name="username" placeholder="Entrez votre nom d'utilisateur" required />
+      </label>
+      <label>
+        <span>Mot de passe</span>
+        <input type="password" name="password" placeholder="Créez un mot de passe sécurisé" required />
+      </label>
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" placeholder="nom@exemple.com" required />
+      </label>
+      <label>
+        <span>Sexe</span>
+        <select name="gender" required>
+          <option value="">Sélectionner votre sexe</option>
+          {% for gender in genders %}
+            <option value="{{ gender }}">{{ gender }}</option>
+          {% endfor %}
+        </select>
+      </label>
+
+      <input type="hidden" name="role" value="Étudiant" />
+
+      <div class="role-fields role-etudiant">
+        <label>
+          <span>Faculté</span>
+          <select id="faculty" name="faculty" required>
+            <option value="">Sélectionner une faculté</option>
+            {% for faculty in faculties %}
+              <option value="{{ faculty }}">{{ faculty }}</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>Date de naissance</span>
+        <input type="date" name="birth_date" required />
+      </label>
+      <label>
+        <span>Téléphone</span>
+        <input type="text" name="phone" placeholder="Ex : 07 89 01 23 45" required />
+      </label>
+      <label>
+        <span>Adresse</span>
+        <input type="text" name="address" placeholder="Votre adresse complète" required />
+      </label>
+      <button type="submit">Créer un compte</button>
+
+    </form>
+    <p>Déjà inscrit ? <a href="/login">Se connecter</a>.</p>
+  </section>
+{% endblock %}

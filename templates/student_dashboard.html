@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="dashboard-header">
+    <div class="profile-card">
+      <div class="profile-image">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image }}" alt="Photo de profil {{ user.username }}" />
+        {% else %}
+          <span class="profile-placeholder">{{ user.username[0]|upper }}</span>
+        {% endif %}
+      </div>
+      <div class="profile-details">
+        <p class="label">Étudiant connecté</p>
+        <h2>{{ user.username }}</h2>
+        <p class="meta">Faculté : {{ user.faculty }}</p>
+        <div class="profile-actions">
+          <a class="button" href="/student/books">Voir mes livres</a>
+          <a class="button secondary" href="/student/profile">Modifier mon profil</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <article class="stat-card">
+      <div class="stat-icon">📚</div>
+      <div>
+        <h3>{{ total_books }}</h3>
+        <p>Livres disponibles</p>
+      </div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <div>
+        <h3>{{ user.faculty }}</h3>
+        <p>Votre domaine</p>
+      </div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-icon">⚡</div>
+      <div>
+        <h3>{{ books|length }}</h3>
+        <p>Livres en aperçu</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="book-gallery">
+    <div class="section-header">
+      <div>
+        <h2>Ouvrages recommandés</h2>
+        <p class="section-subtitle">Parcourez les livres les plus pertinents pour votre faculté.</p>
+      </div>
+      <a class="button secondary" href="/student/books">Rechercher tous les livres</a>
+    </div>
+    <div class="cards-grid">
+      {% for book in books %}
+        <article class="book-card">
+          <div class="book-badge">{{ book.faculty }}</div>
+          <h3>{{ book.title }}</h3>
+          <p>{{ book.author }}</p>
+          <div class="book-meta">
+            <span>{{ book.stock }} / {{ book.total }} disponibles</span>
+            <a class="button small" href="/student/book/{{ book.id }}">Voir</a>
+          </div>
+        </article>
+      {% else %}
+        <p>Aucun livre disponible pour votre faculté pour le moment.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

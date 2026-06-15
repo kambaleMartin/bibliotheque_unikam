@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section class="card">
+    <h2>Lecture de "{{ book.title }}"</h2>
+    <p><strong>Auteur :</strong> {{ book.author }} | <strong>Faculté :</strong> {{ book.faculty }}</p>
+    <div class="book-reader">
+      {% for paragraph in content.split('\n\n') %}
+        <p>{{ paragraph }}</p>
+      {% endfor %}
+    </div>
+    <div class="reader-actions">
+      <a class="button" href="/student/book/{{ book.id }}">Retour aux détails</a>
+      <a class="button secondary" href="/student/books">Retour à la recherche</a>
+    </div>
+  </section>
+{% endblock %}

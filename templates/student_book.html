@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Détails du livre</h2>
+    <div class="book-detail">
+      <p><strong>Titre :</strong> {{ book.title }}</p>
+      <p><strong>Auteur :</strong> {{ book.author }}</p>
+      <p><strong>Faculté :</strong> {{ book.faculty }}</p>
+      <p><strong>Stock disponible :</strong> {{ book.stock }}</p>
+      <p><strong>Stock total :</strong> {{ book.total }}</p>
+      <p class="book-summary"><strong>Résumé :</strong> {{ summary }}</p>
+      <div class="reader-actions">
+        <a class="button" href="/student/book/{{ book.id }}/read">Lire maintenant</a>
+        <a class="button secondary" href="/student/books">Retour à la recherche</a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Emprunts et retours</h2>
+    <form method="POST" action="/librarian/borrow" class="card form-card">
+      <h3>Enregistrer un emprunt ou un retour</h3>
+      <label>Nom de l'étudiant<input type="text" name="student_name" required /></label>
+      <label>ID du livre<select name="book_id" required>
+          <option value="">Sélectionnez un livre</option>
+          {% for book in books %}
+            <option value="{{ book.id }}">{{ book.id }} - {{ book.title }}</option>
+          {% endfor %}
+      </select></label>
+      <div class="action-group">
+        <button type="submit" name="action" value="borrow">Emprunter</button>
+        <button type="submit" name="action" value="return" class="secondary">Retourner</button>
+      </div>
+    </form>
+    <h3>Historique des opérations</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Étudiant</th>
+          <th>Livre</th>
+          <th>Action</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in borrow_records %}
+          <tr>
+            <td>{{ record.student_name }}</td>
+            <td>{{ record.book_title }}</td>
+            <td>{{ record.action }}</td>
+            <td>{{ record.date.strftime('%d/%m/%Y %H:%M') }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">Aucun emprunt ou retour enregistré.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock %}

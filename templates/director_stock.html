@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <section>
+    <h2>Stock global</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Stock disponible</th>
+          <th>Stock total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books %}
+          <tr>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.stock }}</td>
+            <td>{{ book.total }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5">Aucun livre disponible.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="admin-links">
+      <a class="button" href="/director/reports">Rapport mensuel</a>
+      <a class="button secondary" href="/director/borrowings">Emprunts</a>
+    </div>
+  </section>
+{% endblock %}
